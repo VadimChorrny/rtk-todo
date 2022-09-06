@@ -1,7 +1,12 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
-import { addTodo, removeTodo, removeTodoById } from '../redux/todo/slice';
+import {
+  addTodo,
+  editItem,
+  removeTodo,
+  removeTodoById,
+} from '../redux/todo/slice';
 
 const TodoList: React.FC = () => {
   const dispatch = useDispatch();
@@ -34,13 +39,21 @@ const TodoList: React.FC = () => {
     dispatch(removeTodoById(id));
   };
 
+  const onClickEdit = (idx: number) => {
+    const data = {
+      id: idx,
+      name: prompt('Enter your todo'),
+    };
+    dispatch(editItem(data));
+  };
+
   return (
     <div>
       <h1>Todo List</h1>
       <br />
       <ul>
         {items.map((res: any, idx: any) => (
-          <li key={idx}>
+          <li key={idx} onClick={() => onClickEdit(idx)}>
             {res.name}
             <span onClick={() => onClickRemoveById(idx)}>❌</span>
           </li>
